@@ -19,16 +19,12 @@ int main(void){
   float value = 0;
   double res = 0;
   printf("Stack.\n\n");
-  //stack = malloc( INIT * sizeof(char) );
-  // while ( in  == 0 ){
-  //   //If in == 1 it means is quit
-  //   //in = _compara( );
-  //
-  // }
-  printf("Ingresa un numero: \n$ ");
-  scanf("%f", &value );
-  res = fcos( value );
-  printf("\nEl valor del angulo es: %2f\n",res);
-  //free(stack);
+  stack = malloc( INIT * sizeof(char) );
+  while ( in  == 0 ){
+    //If in = 1, that means is quit
+    in = _compara( );
+
+  }
+  free(stack);
   return 0;
 }
