@@ -5,17 +5,28 @@
 *             mina la función a la que hace referen-  *
 *             cia, además provee métodos que limpian  *
 *             el mismo caracter.                      *
-*  Parámetros: ninguno.                               *
+*  Parámetros:                                        *
+*    double * value: Recibe el apuntador de la varia- *
+*                   que se ocupará.                   *
 *                                                     *
 *  Valor de retorno:                                  *
-*    int 0 - El caso de ! de q y Q.                   *
+*    int 0 - Numeros                                  *
 *    int 1 - Cuando es q o Q.                         *
+*    int 2 - Cuando +                                 *
+*    int 3 - Cuando -                                 *
+*    int 4 - Cuando *                                 *
+*    int 5 - Cuando /                                 *
+*    int 6 - Cuando %                                 *
+*    int 7 - Cuando fcos                              *
+*    int 8 - Cuando son operadores                    *
+*    int 9 - Cuando son operadores                    *
+*    int 404 - No válido                              *
 *                                                     *
 *******************************************************/
 
-int _compara ( void ){
+int _compara ( double * value ){
   float a;
-  int q[2],c[7];
+  int q[2],c[10];
   char b[256];
   printf("> ");
   scanf("%s",b);
@@ -23,11 +34,12 @@ int _compara ( void ){
   q[1]=strcmp("Q",b);
   //Compara que sea q o Q
   if(q[0]!=0&&q[1]!=0){
+      // Is a number
       if(sscanf(b,"%f",&a)==1){
           sscanf(b,"%f",&a);
           printf("%f\n",a);
-          //Regresa el valor de 0
-          return 0;
+          //Return the value of number
+          *value = a;
         }
       else{
           c[0]=strcmp("+",b);
@@ -37,37 +49,51 @@ int _compara ( void ){
           c[4]=strcmp("%",b);
           c[5]=strcmp("fsin",b);
           c[6]=strcmp("fcos",b);
+          c[7]=strcmp("imprime",b);
           if(c[0]==0){
             //Función suma
             printf("Suma\n");
+            return 2;
           }
           else if (c[1]==0){
             //Función resta
             printf("Resta\n");
+            return 3;
           }
           else if (c[2]==0){
             //Función Multiplicación
             printf("Multiplicacion\n");
+            return 4;
           }
           else if (c[3]==0){
             //Función división
             printf("Division\n");
+            return 5;
           }
           else if (c[4]==0){
             //Función módulo
             printf("Mood\n");
-          }
-          else if (c[5]==0){
-            //Función Cos
-            printf("Seno\n");
+            return 6;
           }
           else if (c[6]==0){
             //Función coseno
             printf("Coseno\n");
+            return 7;
+          }
+          else if (c[5]==0){
+            //Función Cos
+            printf("Seno\n");
+            return 8;
+          }
+          else if (c[7]==0){
+            //Función imprime el arreglo
+            printf("Imprime arreglo\n");
+            return 9;
           }
           else{
               //Función desconocida.
-              printf("Caracter no valido\n");
+              printf("[ Caracter no valido ]\n");
+              return 404;
           }
         }
       }
@@ -75,38 +101,32 @@ int _compara ( void ){
         printf("Bye!\n");
         return 1;
   }
+  return 0;
 }
 
-int push (int * stack, int pos){
-  int val = 0;
-  printf("Que valor desea ingresar?\n$ ");
-  scanf("%d",&val);
-  printf("Posicion %d\n",pos);
-  stack[pos] = val;
-  return val;
+void push (double number, double * stack, int pos){
+  stack[pos] = number;
 }
 
-int pop (int * stack, int pos){
-  int val = stack[pos];
-  printf("Valor a borrar: %d\n", stack[pos]);
+void pop (double * stack, int pos){
+  double val = stack[pos];
+  printf("Valor a borrar: %f\n", stack[pos]);
   stack[pos] = -1;
-  printf("Valor de retorno: %d\n", val);
-  return val;
+  printf("Valor de retorno: %f\n", val);
 }
 
-int peek (int * stack, int pos){
-  int val = stack[pos];
-  return val;
+void peek (double * stack, int pos){
+  double val = stack[pos];
 }
 
-void print (int * stack, int pos){
+void print (double * stack, int pos){
   int i;
   if (pos == -1) {
     printf("The stack is empty\n");
   }
   else{
       for (i = 0; i < pos+1; i++) {
-        printf("[ %2d ]-[ %2d ]\n", i, stack[i]);
+        printf("[ %2d ]-[ %2f ]\n", i, stack[i]);
       }
   }
 }
