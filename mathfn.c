@@ -24,6 +24,10 @@ double fcos( float angle ){
   return ans;
 }
 
+float suma( float a, float b ){
+  float res = a + b;
+  return res;
+}
 
 /*
 FRAGMENTO DE CODIGO DE COS.

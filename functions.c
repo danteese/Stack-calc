@@ -24,7 +24,7 @@
 *                                                     *
 *******************************************************/
 
-int _compara ( double * value ){
+int _compara ( float * value ){
   float a;
   int q[2],c[10];
   char b[256];
@@ -52,27 +52,22 @@ int _compara ( double * value ){
           c[7]=strcmp("imprime",b);
           if(c[0]==0){
             //Función suma
-            printf("Suma\n");
             return 2;
           }
           else if (c[1]==0){
             //Función resta
-            printf("Resta\n");
             return 3;
           }
           else if (c[2]==0){
             //Función Multiplicación
-            printf("Multiplicacion\n");
             return 4;
           }
           else if (c[3]==0){
             //Función división
-            printf("Division\n");
             return 5;
           }
           else if (c[4]==0){
             //Función módulo
-            printf("Mood\n");
             return 6;
           }
           else if (c[6]==0){
@@ -104,29 +99,66 @@ int _compara ( double * value ){
   return 0;
 }
 
-void push (double number, double * stack, int pos){
+void push (float number, float * stack, int pos){
+  int i = 0;
   stack[pos] = number;
 }
 
-void pop (double * stack, int pos){
-  double val = stack[pos];
-  printf("Valor a borrar: %f\n", stack[pos]);
-  stack[pos] = -1;
-  printf("Valor de retorno: %f\n", val);
-}
-
-void peek (double * stack, int pos){
-  double val = stack[pos];
-}
-
-void print (double * stack, int pos){
+// void pop (double * stack, int pos){
+//   double val = stack[pos];
+//   printf("Valor a borrar: %f\n", stack[pos]);
+//   stack[pos] = -1;
+//   printf("Valor de retorno: %f\n", val);
+// }
+//
+// void peek (double * stack, int pos){
+//   double val = stack[pos];
+// }
+//
+void print (float * stack, int pos){
   int i;
   if (pos == -1) {
     printf("The stack is empty\n");
   }
   else{
       for (i = 0; i < pos+1; i++) {
-        printf("[ %2d ]-[ %2f ]\n", i, stack[i]);
+        printf("[ %2d ]-[ %2.1f ]\n", i, stack[i]);
       }
   }
+}
+
+void _recorre ( float res, int c, float * stack, int pos ){ //Recorre la cantidad de valores usados
+  float *temp;
+  int i = 0;
+  temp = malloc( sizeof(int));
+  for (i = 0; i < pos+1; i++) {
+    temp[i] = stack[i];
+    printf("Temp: [%2.1f]\n", temp[i]);
+  }
+  if (c == 1) { //Cuando no se recorre
+    printf("La lista quedo igual.\n");
+  }
+  else{
+    stack[0] = res;
+    for (i = 1; i < pos+1; i++) {
+      stack[i] = temp[i+1];
+    }
+    // if (pos > 1) {
+    //   stack[pos-1] = 0;
+    //   stack[pos] = 0;
+    // }
+  }
+  free(temp);
+}
+int _catch( float* in1, float* in2, float *stack, int pos){
+  if (pos >= 1) {
+    *in1 = stack[0];
+    *in2 = stack[1];
+    return 2;
+  }
+  else if (pos == 0) {
+    *in1 = stack[0];
+    *in2 = 0;
+  }
+  return 1;
 }
