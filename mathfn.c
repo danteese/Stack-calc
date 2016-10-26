@@ -1,6 +1,6 @@
 #include "libraries.h"
 
-double cos( float angle ){
+double fcos( float angle ){
   float r_angle = 0;
   float ans = 1, res = 1, temp = 1; // Resultados parciales
   int acc = 4; //Numero de iteraciones

@@ -1,6 +1,6 @@
 #Makefile practica stack en git
 stack: main.o functions.o mathfn.o
-	gcc -o stack main.o functions.o
+	gcc -o stack main.o functions.o mathfn.o
 
 main.o: main.c
 	gcc -c main.c
