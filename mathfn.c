@@ -35,20 +35,41 @@ float resta( float a, float b ){
 }
 
 float mult( int c, float a, float b ){
+  float res = 0;
   //c: Cantidad de valores que tomo de la lista
-  if ( c == 1) {
+  if ( c == 1 ) {
     b = 1;
   }
-  float res = a * b;
+  res = a * b;
   return res;
 }
 
-/* La division debe estar protegida contra 0´s
-   Borra este comentario. */
-/*
-FRAGMENTO DE CODIGO DE COS.
-*/
-// printf("Ingresa un numero: \n$ ");
-// scanf("%f", &value );
-// res = fcos( value );
-// printf("\nEl valor del angulo es: %2f\n",res);
+float division( int c, float a, float b ){
+  float res = 0;
+  if( c == 1){
+    b = 1;
+  }
+  if( b == 0 ){
+    printf("\t\t\t\t [Valor indeterminado]\n");
+    res = -9999;
+  }
+  else{
+     res = a / b;
+  }
+  return res;
+}
+
+float modulo(float a, float b){
+  float res;
+  int x,y;
+  x = a;
+  y = b;
+  if( b == 0 ){
+    printf("\t\t\t\t [Valor indeterminado]\n");
+    res = -9999;
+  }
+  else{
+    res = (x % y);
+  }
+  return res;
+}

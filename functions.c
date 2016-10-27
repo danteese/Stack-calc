@@ -72,7 +72,7 @@ int _compara ( float * value ){
           }
           else if (c[6]==0){
             //Función coseno
-            printf("Coseno\n");
+            //printf("Coseno\n");
             return 7;
           }
           else if (c[5]==0){

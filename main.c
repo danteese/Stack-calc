@@ -16,10 +16,13 @@ extern int _catch( float* in1, float* in2, float *stack, int pos);
 /* Funciones de operaciones */
 extern float suma( float a, float b );
 extern float resta( float a, float b );
-extern double fcos( float angle );
 extern float mult( int c, float a, float b );
+extern float mult( int c, float a, float b );
+extern float division( int c, float a, float b );
+extern float modulo(float a, float b);
+extern double fcos( float angle );
 
-int main(void){
+int main( int argc, char **argv ){
   float *stack;
   int pos = -1, opt = -1, in = 0;
   int i = 0;
@@ -27,6 +30,39 @@ int main(void){
   float a = 0,b = 0; //Valores operacionales.
   float sto_res = 0; //Resultado de operacion.
   int catch = 0; // Cantidad de valores que tomo de la lista.
+
+  //Comprobaciones inciales:
+  if (argc == 2) {
+    if (strcmp(argv[1],"-h") == 0) {
+      //Ayuda
+      system("clear");
+      printf("\n\t\t\t\tCalculadora Polaca.\nEntradas:\n\n");
+      printf("\n(1): El programa recibe valores numéricos, operadores y palabras reservadas.\n");
+      printf("\n(2): Los operadores son: \n\t(+) +: Suma\n\t(+) -: Resta\n\t(+) /: Division\n\t(+) *: Multiplicacion\n\t(+) %c : Modulo\n",37);
+      printf("\n(3): Palabras reservadas: \n\t(+) fcos: Realiza el cos del angulo que se encuentre en el top de la lista.\n");
+      printf("\n\t(+) -show: Muestra la lista en orden ascendente para que sepas que haz ingresado.\n");
+      printf("\nPresione ENTER para continuar. \n");
+      getchar();
+      printf("\n(4): Razonamiento: \n\t(+) El programa recibirá numeros los cuales irá apilando en una fila, los cuales al ingresar un operador/palabra reservada se trabaja con los primeros en top.\n");
+      printf("\tEjemplo: (valores ingresados por usuario)\n");
+      printf("\t\t1\n");
+      printf("\t\t2\n");
+      printf("\t\t+\tResultado = 3\n");
+      printf("\tNueva lista:\n");
+      printf("\t\t3 (Notese que se cambió el 1 por el nuevo resultado)\n");
+      exit(1);
+    }
+    else{
+      printf("Modo de ejecución incorrecto. Pruebe ./calc -h\n");
+      exit(1);
+    }
+  }
+
+  else{
+    printf("Modo de ejecución incorrecto. Pruebe ./calc -h\n");
+    exit(1);
+  }
+
   system("clear");
   printf("\t\t\t\tCalculadora v1.5\n\n");
   stack = malloc( sizeof(int) );
@@ -83,22 +119,77 @@ int main(void){
         //suma
         break;
       case 4:
-        //aqui se implementa la funcion de multiplicacion.
-        // c es un valor que regresa la funcion _catch, solo enviarlo a mult().
-        printf("\t\t[ MULTIPLICACION ]\n");
+        if ( pos == -1 ) {
+          printf("No hay suficientes valores para multiplicar\n");
+        }
+        else{
+          //printf("\t\t[ MULTIPLICACION ]\n");
+          catch = _catch( &a, &b, stack, pos );
+          if ( catch == 1) {
+            b = 1;
+          }
+          sto_res = mult(catch,a, b);
+          printf("\t\t\t\t [ %2.1f * %2.1f = %2.1f ]\n",a,b,sto_res);
+          _recorre( sto_res, catch, stack, pos );
+          if( pos != 0 ){
+              pos--;
+          }
+	       }
         in = 0;
-        //suma
         break;
       case 5:
-        printf("\t\t[ DIVISION ]\n");
+        if ( pos == -1 ) {
+        printf("No hay suficientes valores para dividir\n");
+        }
+        else{
+          //printf("\t\t[ DIVISION ]\n");
+          catch = _catch( &a, &b, stack, pos );
+          sto_res = division(catch,a,b);
+          if ( catch == 1) {
+            b = 1;
+          }
+          //Si no es un valor indeterminado puede mostrarse resultado y recorrer.
+          if (sto_res != -9999) {
+            printf("\t\t\t\t [ %2.1f / %2.1f = %2.1f ]\n",a,b,sto_res);
+            _recorre( sto_res, catch, stack, pos );
+          }
+          if( pos != 0 ){
+              pos--;
+          }
+        }
         in = 0;
         break;
       case 6:
-        printf("\t\t[ MODULO ]\n");
+        if ( pos == -1 ) {
+          printf("No hay suficientes valores para obtener el residuo\n");
+        }
+        else{
+          catch = _catch( &a, &b, stack, pos );
+          sto_res = modulo( a, b);
+          if (sto_res != -9999) {
+            printf("\t\t\t\t [ %2.1f MOD %2.1f = %2.1f ]\n",a,b,sto_res);
+            _recorre( sto_res, catch, stack, pos );
+          }
+          if( pos != 0 ){
+              pos--;
+          }
+        }
         in = 0;
         break;
       case 7:
-        printf("\t\t[ COS ]\n");
+        if ( pos == -1 ) {
+          printf("No hay suficientes valores para obtener el coseno\n");
+        }
+        else{
+          catch = _catch( &a, &b, stack, pos );
+          sto_res = fcos(a);
+          printf("\t\t\t\tCos [%2.1f] = %2.9f\n",a,sto_res);
+          // _recorre( coseno, catch, stack, pos );
+          stack[0] = sto_res;
+          if( pos != 0 ){
+              pos--;
+          }
+        }
         in = 0;
         break;
       case 9:
