@@ -12,9 +12,12 @@ extern int _compara ( float * value );
 //Cuando se borran de la lista.
 extern void _recorre ( float res, int c, float* stack, int pos );
 extern int _catch( float* in1, float* in2, float *stack, int pos);
+
 /* Funciones de operaciones */
 extern float suma( float a, float b );
+extern float resta( float a, float b );
 extern double fcos( float angle );
+extern float mult( int c, float a, float b );
 
 int main(void){
   float *stack;
@@ -24,7 +27,8 @@ int main(void){
   float a = 0,b = 0; //Valores operacionales.
   float sto_res = 0; //Resultado de operacion.
   int catch = 0; // Cantidad de valores que tomo de la lista.
-  printf("Stack.\n");
+  system("clear");
+  printf("\t\t\t\tCalculadora v1.5\n\n");
   stack = malloc( sizeof(int) );
   if ( stack == NULL ) {
     printf(" No se pudo alojar memoria. \n");
@@ -50,20 +54,37 @@ int main(void){
           printf("No hay suficientes valores para sumar\n");
         }
         else{
+          //Suma: top - (top-1)
           catch = _catch( &a, &b, stack, pos );
           sto_res = suma( a, b);
-          printf("\t\tResultado = %2.1f\n",sto_res);
+          printf("\t\t\t\t [ %2.1f + %2.1f = %2.1f ]\n",a,b,sto_res);
           _recorre( sto_res, catch, stack, pos );
-          pos--;
+          if( pos != 0 ){
+              pos--;
+          }
         }
         in = 0;
         break;
       case 3:
-        printf("\t\t[ RESTA ]\n");
+        if ( pos == -1 ) {
+          printf("No hay suficientes valores para restar\n");
+        }
+        else{
+          //Resta: top - (top-1)
+          catch = _catch( &a, &b, stack, pos );
+          sto_res = resta( a, b);
+          printf("\t\t\t\t [ %2.1f - %2.1f = %2.1f ]\n",a,b,sto_res);
+          _recorre( sto_res, catch, stack, pos );
+          if( pos != 0 ){
+              pos--;
+          }
+        }
         in = 0;
         //suma
         break;
       case 4:
+        //aqui se implementa la funcion de multiplicacion.
+        // c es un valor que regresa la funcion _catch, solo enviarlo a mult().
         printf("\t\t[ MULTIPLICACION ]\n");
         in = 0;
         //suma
@@ -81,7 +102,7 @@ int main(void){
         in = 0;
         break;
       case 9:
-        printf("\t\t[Size list]: [%2d] \n", pos + 1);
+        printf("[Size list]: [%2d] \n", pos + 1);
         print( stack, pos );
         in = 0;
       case 404:

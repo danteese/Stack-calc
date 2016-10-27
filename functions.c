@@ -28,7 +28,7 @@ int _compara ( float * value ){
   float a;
   int q[2],c[10];
   char b[256];
-  printf("> ");
+  printf("$: ");
   scanf("%s",b);
   q[0]=strcmp("q",b);
   q[1]=strcmp("Q",b);
@@ -37,7 +37,7 @@ int _compara ( float * value ){
       // Is a number
       if(sscanf(b,"%f",&a)==1){
           sscanf(b,"%f",&a);
-          printf("%f\n",a);
+          //printf("%f\n",a);
           //Return the value of number
           *value = a;
         }
@@ -49,7 +49,7 @@ int _compara ( float * value ){
           c[4]=strcmp("%",b);
           c[5]=strcmp("fsin",b);
           c[6]=strcmp("fcos",b);
-          c[7]=strcmp("imprime",b);
+          c[7]=strcmp("-show",b);
           if(c[0]==0){
             //Función suma
             return 2;
@@ -82,7 +82,7 @@ int _compara ( float * value ){
           }
           else if (c[7]==0){
             //Función imprime el arreglo
-            printf("Imprime arreglo\n");
+            printf("\nImprime lista\n");
             return 9;
           }
           else{
@@ -99,11 +99,29 @@ int _compara ( float * value ){
   return 0;
 }
 
+/******************************************************
+*  _compara - Compara caracteres de entrada y deter-  *
+*             mina la función a la que hace referen-  *
+*             cia, además provee métodos que limpian  *
+*             el mismo caracter.                      *
+*  Parámetros:                                        *
+*    float number: Utiliza un numero que introduce el *
+*                  usuario y lo guarda en la locación *
+*                  actual de memoria.                 *
+*   float * stack: Apuntador a la lista.              *
+*   int pos:  Cantidad de elementos de la lista.      *
+*                                                     *
+*  Valor de retorno:                                  *
+*    Ninguno                                          *
+*******************************************************/
 void push (float number, float * stack, int pos){
   int i = 0;
   stack[pos] = number;
 }
-
+/*
+ + Estas funciones no se ocupan actualmente pero eliminan
+  y muestran el último numero ingresado.
+*/
 // void pop (double * stack, int pos){
 //   double val = stack[pos];
 //   printf("Valor a borrar: %f\n", stack[pos]);
@@ -115,6 +133,17 @@ void push (float number, float * stack, int pos){
 //   double val = stack[pos];
 // }
 //
+
+/******************************************************
+*  print - Recorre la lista e imprime los números     *
+*  Parámetros:                                        *
+*   float * stack: Apuntador a la lista.              *
+*   int pos:  Cantidad de elementos de la lista.      *
+*                                                     *
+*  Valor de retorno:                                  *
+*    Ninguno                                          *
+*******************************************************/
+
 void print (float * stack, int pos){
   int i;
   if (pos == -1) {
@@ -122,34 +151,59 @@ void print (float * stack, int pos){
   }
   else{
       for (i = 0; i < pos+1; i++) {
-        printf("[ %2d ]-[ %2.1f ]\n", i, stack[i]);
+        printf("\t\t\t[ %2d ]-[ %2.1f ]\n", i, stack[i]);
       }
   }
 }
 
+/******************************************************
+*  _recorre - Recorre la lista cuando se ha efectuado *
+*             una operacion y la acomoda.             *
+*  Parámetros:                                        *
+*    float res: Resultado obtenido por la operacion   *
+*    int c: Cantidad de valores que se tomaron de la  *
+*           lista cuando se efectuo una operacion.    *
+*   float * stack: Apuntador a la lista.              *
+*   int pos:  Cantidad de elementos de la lista.      *
+*                                                     *
+*  Valor de retorno:                                  *
+*    Ninguno                                          *
+*******************************************************/
 void _recorre ( float res, int c, float * stack, int pos ){ //Recorre la cantidad de valores usados
   float *temp;
   int i = 0;
   temp = malloc( sizeof(int));
   for (i = 0; i < pos+1; i++) {
     temp[i] = stack[i];
-    printf("Temp: [%2.1f]\n", temp[i]);
+    //printf("Temp: [%2.1f]\n", temp[i]);
   }
   if (c == 1) { //Cuando no se recorre
-    printf("La lista quedo igual.\n");
+    printf("No hay más valores.\nUtilce el comando -show para mostrar los valores almacenados.");
   }
   else{
     stack[0] = res;
     for (i = 1; i < pos+1; i++) {
       stack[i] = temp[i+1];
     }
-    // if (pos > 1) {
-    //   stack[pos-1] = 0;
-    //   stack[pos] = 0;
-    // }
   }
   free(temp);
 }
+
+/******************************************************
+*  _catch - Obtiene los primeros valores de la lista  *
+*           para efectuar una operacion y por defecto *
+*           en caso de que se encuentre solo uno, se  *
+*           determina el valor de la segunda variable *
+*           como 0.                                   *
+*  Parámetros:                                        *
+*    float *in1: Apuntador a una variable a modificar *
+*    float *in2: Apuntador a una variable a modificar *
+*   float * stack: Apuntador a la lista.              *
+*   int pos:  Cantidad de elementos de la lista.      *
+*                                                     *
+*  Valor de retorno:                                  *
+*    Cantidad de valores que fueron tomados.          *
+*******************************************************/
 int _catch( float* in1, float* in2, float *stack, int pos){
   if (pos >= 1) {
     *in1 = stack[0];
