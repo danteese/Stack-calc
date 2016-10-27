@@ -1,6 +1,7 @@
 /*
 @autors: Dante Bazaldua y Ricardo de la Vega
 @date: 26-OCT-2016
+El codigo fue verificado en su totalidad el dia 27 de Octube
 */
 #include "libraries.h"
 
