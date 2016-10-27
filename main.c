@@ -32,7 +32,7 @@ int main( int argc, char **argv ){
   int catch = 0; // Cantidad de valores que tomo de la lista.
 
   //Comprobaciones inciales:
-  if (argc == 2) {
+  if (argc > 1) {
     if (strcmp(argv[1],"-h") == 0) {
       //Ayuda
       system("clear");
@@ -57,7 +57,9 @@ int main( int argc, char **argv ){
       exit(1);
     }
   }
-
+  else if ( argc == 1 ) {
+    printf("Modo Calculadora\n");
+  }
   else{
     printf("Modo de ejecución incorrecto. Pruebe ./calc -h\n");
     exit(1);
