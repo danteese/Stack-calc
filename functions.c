@@ -178,7 +178,7 @@ void _recorre ( float res, int c, float * stack, int pos ){ //Recorre la cantida
     //printf("Temp: [%2.1f]\n", temp[i]);
   }
   if (c == 1) { //Cuando no se recorre
-    printf("No hay más valores.\nUtilce el comando -show para mostrar los valores almacenados.");
+    printf("No hay más valores.\nUtilce el comando -show para mostrar los valores almacenados.\n");
   }
   else{
     stack[0] = res;
